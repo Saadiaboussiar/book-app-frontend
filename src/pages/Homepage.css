@@ -1,0 +1,19 @@
+.homepage {
+  min-height: 100vh; /*#406dbb*/
+  background: linear-gradient(to right, #745c8d, #406dbb);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.homepage h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.homepage p {
+  font-size: 1.2rem;
+}
