@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import api from '../../interceptors/api'
+
+
 
 const LoginForm = () => {
   const [showpass, setShowpass] = useState(false);
@@ -26,9 +29,8 @@ const LoginForm = () => {
     formData.append("password", authdetails.password);
 
     try {
-      const response = await axios.post('http://localhost:8081/login', formData, {
+      const response = await api.post('/login', formData, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        withCredentials: false // JWT doesn't need cookies unless you're setting them on the server
       });
 
       localStorage.setItem('access_token', response.data['access-token']);

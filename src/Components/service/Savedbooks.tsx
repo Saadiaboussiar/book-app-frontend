@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import { getUserRoles } from '../utils/AuthUtils';
+import { getUserRoles } from '../../utils/AuthUtils';
+import api from '../../interceptors/api';
 
 type Book = {
     id:number
@@ -23,11 +24,7 @@ const Savedbooks = () => {
 
 
     useEffect(() => {
-    axios.get<Book[]>('http://localhost:8081/books', 
-        {headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-    })
+    api.get<Book[]>('/books')
     .then(response => {
         if(query!=''){
           const filtered = response.data.filter((book:Book) =>
@@ -46,12 +43,10 @@ const Savedbooks = () => {
     }, [query]);
 
     console.log("infos"+infos)
+    
     const handleDelete=(id:number)=>{
-        axios.delete(`http://localhost:8081/books/${id}`, 
-            {headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-    }).then(()=>{
+        api.delete(`/books/${id}`)
+            .then(()=>{
             setinfos((infos)=>infos.filter((book)=>book.id!==id));
         }).catch((error)=>{
             console.error("Selete failed",error);

@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import api from '../../interceptors/api'
+
+
 
 const SigninForm = () => {
     const [showpass, setShowpass] = useState(false);
@@ -26,12 +29,9 @@ const SigninForm = () => {
       password: authdetails.password,
   };
     try {
-      const response = await axios.post('http://localhost:8081/users', userData, {
-        headers: { 'Content-Type': 'application/json', 
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        },
-        withCredentials: false // JWT doesn't need cookies unless you're setting them on the server
-      });
+      const response = await api.post('/users', userData,
+        {headers: { 'Content-Type': 'application/json' }
+    });
 
       
       navigate('/login', { replace: true }); // Redirect to homepage

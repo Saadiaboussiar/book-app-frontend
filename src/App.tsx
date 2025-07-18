@@ -1,17 +1,29 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import Navbar from './Components/Navbar';
-import Homepage from './pages/Homepage';
-import LoginForm from './Components/LoginForm';
-import Booksform from './Components/Booksform';
-import Savedbooks from './Components/Savedbooks';
-import { getUserRoles } from './utils/AuthUtils';
-import SigninForm from './Components/SigninForm';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import Navbar from "./Components/service/Navbar";
+import Homepage from "./pages/Homepage";
+import LoginForm from "./Components/auth/LoginForm";
+import Booksform from "./Components/service/Booksform";
+import Savedbooks from "./Components/service/Savedbooks";
+import { getUserRoles } from "./utils/AuthUtils";
+import SigninForm from "./Components/auth/SigninForm";
 
 // Simple auth simulation using token presence in localStorage
-function RequireAuth({ children , roles=[]}: { children: JSX.Element, roles?: string[] }) {
-  const token = localStorage.getItem('access_token');
-  const userRoles=getUserRoles();
+function RequireAuth({
+  children,
+  roles = [],
+}: {
+  children: JSX.Element;
+  roles?: string[];
+}) {
+  const token = localStorage.getItem("access_token");
+  const userRoles = getUserRoles();
   if (!token) {
     return <Navigate to="/login" replace />;
   }
@@ -24,7 +36,8 @@ function AppWrapper() {
 
   return (
     <>
-      {location.pathname !== '/login' && location.pathname !== '/signinform' && <Navbar />}
+      {location.pathname !== "/login" &&
+        location.pathname !== "/signinform" && <Navbar />}
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route
@@ -35,12 +48,7 @@ function AppWrapper() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/signinform"
-          element={
-              <SigninForm />
-          }
-        />
+        <Route path="/signinform" element={<SigninForm />} />
         <Route
           path="/savedbooks"
           element={
@@ -52,7 +60,7 @@ function AppWrapper() {
         <Route
           path="/booksform"
           element={
-            <RequireAuth roles={['ADMIN','MANAGER']}>
+            <RequireAuth roles={["ADMIN", "MANAGER"]}>
               <Booksform />
             </RequireAuth>
           }
@@ -65,7 +73,6 @@ function AppWrapper() {
             </RequireAuth>
           }
         />
-        
       </Routes>
     </>
   );
